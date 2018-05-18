@@ -42,7 +42,7 @@ beforeEach(async () => {
 describe('Inbox', () => {
    // Test that checks if the contract is deployed
   it('deploys a contract', () => {
-    // If parameter to assert.ok() is null or undefined then the test FAILS
+    // If parameter to assert.ok() is truthy then the test will PASS
     // 
     assert.ok(inbox.options.address);
   });
