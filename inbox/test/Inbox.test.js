@@ -47,14 +47,14 @@ describe('Inbox', () => {
   // Test to check the return value of a method in Smart Contract
   it('has a default message', async () => {
     // Calling a getter method in the SMART CONTRACT. The getters just return something. They don't affect the Blockchain
-    // so no Transaction object needs to be created and sent
+    // so no Transaction object needs to be created and sent (so no .send() below)
     const message = await inbox.methods.message().call();   
     assert.equal(message, 'Hi there!');
   });
 
   it('can change the message', async () => {
     // Calling a setter method in the SMART CONTRACT
-    // HERE WE HAVE TO SEND A TRANSACTION object because the setter method affects the Blockchain,
+    // HERE WE HAVE TO SEND A TRANSACTION object (see .send() below) because the setter method affects the Blockchain,
     // and a Blockchain can only be affected by way of a Transaction object
     await inbox.methods.setMessage('bye').send({ from: accounts[0] });
     const message = await inbox.methods.message().call();
