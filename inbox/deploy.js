@@ -1,5 +1,10 @@
 const HDWalletProvider = require('truffle-hdwallet-provider');
 const Web3 = require('web3');
+
+// The next line parses the contents of compile.js and executes the contents of that file
+// In it, you can check that the solidity compiler is called and its output is exported
+// module.exports = ....     so that when we do .require('./compile') we are able to access 
+// the exported stuff here  ...
 const { interface, bytecode } = require('./compile');
 
 const provider = new HDWalletProvider(
