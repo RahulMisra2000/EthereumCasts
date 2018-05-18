@@ -36,6 +36,9 @@ contract Lottery {
     function pickWinner() public restricted {
         uint index = random() % players.length;
         players[index].transfer(this.balance);
+        // new address[] creates a dynamic array of type address ... so addresses will be stored in it
+        // It is dynamic because we did not give the array a fixed size by specifying a number inside []
+        // The (0) means that make the initial size of the array, zero elements... means make it empty
         players = new address[](0);
     }
 
