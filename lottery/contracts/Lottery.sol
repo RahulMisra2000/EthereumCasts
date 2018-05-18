@@ -20,8 +20,14 @@ contract Lottery {
     }
 
 // There is no easy way in Solidity to generate true Random Numbers
-// So this is what we are going to do ...
+// So the author is using a hashing algorithm, keccak256, which is like SHA256 and
+// sending it 3 values ... which are not truly random... but I guess good enough for a demo
     function random() private view returns (uint) {
+        // block is another global variable that we have access to
+        // now is a global utility method we have access to
+        // we are in the end converting the hash output to an unint (unsigned int)
+        // uint is the same as uint256 ... so it can store REALLY LARGE NUMBERS
+        // and the hash is a pretty long hex string ..so that is why we need a unint256
         return uint(keccak256(block.difficulty, now, players));
     }
 
