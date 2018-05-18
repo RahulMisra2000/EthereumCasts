@@ -7,12 +7,14 @@ const Web3 = require('web3');
 // the exported stuff here  ...
 const { interface, bytecode } = require('./compile');
 
+// This provider needs to know which Node in the Rinkeby Ethereum Network to connect to 
+// and also which account to use for getting ethers out of so the node that does the work can get paid
 const provider = new HDWalletProvider(
   'call glow acoustic vintage front ring trade assist shuffle mimic volume reject',
   'https://rinkeby.infura.io/orDImgKRzwNrVCDrAk5Q'
 );
 const web3 = new Web3(provider);
-
+// Everything with web3 is PROMISE based !
 const deploy = async () => {
   const accounts = await web3.eth.getAccounts();
 
