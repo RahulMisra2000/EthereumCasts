@@ -15,7 +15,7 @@ contract Inbox {
     }
     
     // This is a setter function since it affects the class level variable.
-    // The smart transaction code and the class level variables ARE STORED IN A BLOCK in a BLOCKCHAIN
+    // The smart contract code and the class level variables ARE STORED IN A BLOCK in a BLOCKCHAIN
     // So a setter method affects the Blockchain ... and to affect the blockchain one has to SEND a Transaction object
     // so, when calling this method, the caller will also need to send a transaction object along...
     function setMessage(string newMessage) public {
