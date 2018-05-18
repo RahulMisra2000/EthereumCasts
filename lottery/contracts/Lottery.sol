@@ -42,6 +42,8 @@ contract Lottery {
         players = new address[](0);
     }
 
+// Think of this as creating a function GUARD.
+// When this modifier is applied to a function, that function will only execute if the condition is met
     modifier restricted() {
         require(msg.sender == manager);
         _;
