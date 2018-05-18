@@ -20,15 +20,17 @@ let inbox;  // this allows us to interact with the Smart Contract
 // This runs before every Test (it)
 beforeEach(async () => {
   // Get a list of all accounts
-  accounts = await web3.eth.getAccounts();
+  accounts = await web3.eth.getAccounts();        // This account will be the creator of all Transaction objects in this code file
 
   // Use one of those accounts to deploy the contract by SENDING a TRANSACTION object
   inbox = await new web3.eth.Contract(JSON.parse(interface))
-    .deploy({
-      data: bytecode,            
-      arguments: ['Hi there!']    // The constructor of the Smart Contract expects one string
+    .deploy({                                     // please deploy smart contract
+      data: bytecode,                             // the compiled smart contract code
+      arguments: ['Hi there!']                    // The constructor of the Smart Contract expects one string
     })
-    .send({ from: accounts[0], gas: '1000000' }); // sending the TRANSACTION OBJECT
+    .send({ from: accounts[0], gas: '1000000' }); // send the TRANSACTION OBJECT; gas here is the GasLimit - the max units of gas the 
+                                                  // transaction creator will pay the worker node to do the work of deploying the 
+                                                  // the smart contract in Blockchain
   
     // AT THIS POINT, think of inbox as our pointer to the smart contract that has just been DEPLOYED
     // Where it is deployed is in inbox.options.address
