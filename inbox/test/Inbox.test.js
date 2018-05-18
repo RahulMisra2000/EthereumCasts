@@ -20,10 +20,11 @@ let inbox;  // this allows us to interact with the Smart Contract
 // This runs before every Test (it)
 beforeEach(async () => {
   // Get a list of all accounts
-  accounts = await web3.eth.getAccounts();        // This account will be the creator of all Transaction objects in this code file
+  accounts = await web3.eth.getAccounts();        // ***** This account will be the creator of all Transaction objects created
+                                                  // in this code file...eg.  .send() below creates a transaction object
 
   // Use one of those accounts to deploy the contract by SENDING a TRANSACTION object
-  inbox = await new web3.eth.Contract(JSON.parse(interface))
+  inbox = await new web3.eth.Contract(JSON.parse(interface))  // This is the smart contract's Interface
     .deploy({                                     // please deploy smart contract
       data: bytecode,                             // the compiled smart contract code
       arguments: ['Hi there!']                    // The constructor of the Smart Contract expects one string
