@@ -86,8 +86,11 @@ describe('Lottery Contract', () => {
         from: accounts[0],
         value: 0
       });
-      assert(false);
+      assert(false);    // when this executes the test fails
     } catch (err) {
+      
+      // ******* assert() checks for truthiness of the content. If it is then the test passes. If it is not then it fails
+      // DETOUR: assert.ok() checks for the existence of content. If it exists then the test passes otherwise it fails
       assert(err);
     }
   });
