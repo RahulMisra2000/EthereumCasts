@@ -20,7 +20,7 @@ beforeEach(async () => {
     .send({ from: accounts[0], gas: '1000000' });
 });
 
-// If lottery.options.address is truthy that means we can assume that the contract was deployed because that is address where the 
+// If lottery.options.address EXISTS then the test will pass ...  that means we can assume that the contract was deployed because that is address where the 
 // contract gets deployed
 describe('Lottery Contract', () => {
   it('deploys a contract', () => {
