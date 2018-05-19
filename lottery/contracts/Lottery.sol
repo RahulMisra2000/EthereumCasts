@@ -33,7 +33,7 @@ contract Lottery {
 
 // The address type in solidity has methods hanging off it such as .transfer()
 // This is very convenient for sending money to an address ...
-    function pickWinner() public restricted {
+    function pickWinner() public onlyManagerCanCallMethod {
         uint index = random() % players.length;
         players[index].transfer(this.balance);
         // new address[] creates a dynamic array of type address ... so addresses will be stored in it
@@ -44,7 +44,7 @@ contract Lottery {
 
 // Think of this as creating a function GUARD.
 // When this modifier is applied to a function, that function will only execute if the condition is met
-    modifier restricted() {
+    modifier onlyManagerCanCallMethod() {
         require(msg.sender == manager);
         _;
     }
