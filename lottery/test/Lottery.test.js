@@ -11,26 +11,43 @@ let accounts;
 beforeEach(async () => {
   accounts = await web3.eth.getAccounts();
 
+ 
+// The way to read this is, deploying (.deploy()) a contract (.Contract()) and sending (.send()) a Transaction because 
+// a Block will need to get mined and transaction details will be placed in it and the block will then be added to the Blockchain
+// so for this work money needs to be paid ...
   lottery = await new web3.eth.Contract(JSON.parse(interface))
     .deploy({ data: bytecode })
     .send({ from: accounts[0], gas: '1000000' });
 });
 
+// If lottery.options.address is truthy that means we can assume that the contract was deployed because that is address where the 
+// contract gets deployed
 describe('Lottery Contract', () => {
   it('deploys a contract', () => {
     assert.ok(lottery.options.address);
   });
-
+  
+// If you look at the contract, you will see that the enter function is a 'payable' function type and so money needs to be sent to it 
+// at the time of invoking the enter function.
+// This affects the Blockchain and so a transaction needs to be created and sent and that is why .send() is being used
+// In it we specify, which account will be making the payment and also how much payment is being made in the unit 'wei'.
+// It is easier to use the utility function .toWei to convert ether into wei .... just easier to specify ether units in code that is why)
   it('allows one account to enter', async () => {
     await lottery.methods.enter().send({
       from: accounts[0],
       value: web3.utils.toWei('0.02', 'ether')
     });
 
+    
+// the getPlayers() function is a getter and so it does not affect the Blockchain and so NO NEED to create and send a Transaction....
+// here we are telling which account is doing this .....  so inside the getPlayers() function if we did msg.sender we will get the
+// account which is being sent in the from: property
     const players = await lottery.methods.getPlayers().call({
       from: accounts[0]
     });
 
+    
+// the first parameter to assert ....  is what value "should be" ... and the second parameter is what value "is"
     assert.equal(accounts[0], players[0]);
     assert.equal(1, players.length);
   });
@@ -60,6 +77,10 @@ describe('Lottery Contract', () => {
   });
 
   it('requires a minimum amount of ether to enter', async () => {
+  
+  // REMEMBER, the web3 API is FULLY promise-based.... so we either do ...     .then().catch() kinda syntax to consume the Promise
+  // OR we do the async/await syntax to consume the Promise  ... In async/await we have to use try/catch to catch Promise rejects
+  // as shown below
     try {
       await lottery.methods.enter().send({
         from: accounts[0],
