@@ -1,7 +1,9 @@
 import web3 from './web3';
 
+// When deploying the contract, console.log out the address to where it got deployed and then paste it in here
 const address = '0x8DDB5D5F062C235A9eF6C65b789A3D3951134F0b';
 
+// When compiling the smart contract, console.log out the interface code and paste it in here .....
 const abi = [
   {
     constant: true,
@@ -56,4 +58,7 @@ const abi = [
   }
 ];
 
+// This is how you create a local proxy of the contract that is already deployed in the Blockchain....
+// We will call methods on this local copy and with the magic of web3 and the Provider the method will be executed on the 
+// contract that is in the Blockchain
 export default new web3.eth.Contract(abi, address);
