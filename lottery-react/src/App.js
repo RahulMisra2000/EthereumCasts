@@ -19,6 +19,8 @@ class App extends Component {
     const manager = await lottery.methods.manager().call();
     const players = await lottery.methods.getPlayers().call();
     // Both Human accounts (aka external accounts) and Contract Accounts have address and balance associated with them.
+    // The balance is NOT a number. It is a number wrapped in a special object and that is why it is initialized
+    // in the state with this value '' and not 0
     const balance = await web3.eth.getBalance(lottery.options.address);
 
     this.setState({ manager, players, balance });
