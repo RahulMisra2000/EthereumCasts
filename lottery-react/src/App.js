@@ -15,7 +15,7 @@ class App extends Component {
   async componentDidMount() {
     
     // we don't have to provide the form: property in the call ... like so  .call({from: account making the request})
-    // because the provider that MetaMask uses, uses the currently selected account in MetaMask by default
+    // because the provider that MetaMask uses, uses the currently selected account in MetaMask chrome plugin by default
     const manager = await lottery.methods.manager().call();
     const players = await lottery.methods.getPlayers().call();
     // Both Human accounts (aka external accounts) and Contract Accounts have address and balance associated with them.
