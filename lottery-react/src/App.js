@@ -44,13 +44,15 @@ class App extends Component {
 
   onClick = async () => {
     const accounts = await web3.eth.getAccounts();
-
+    
     this.setState({ message: 'Waiting on transaction success...' });
-
+// The above message is being done to give the user some feedback because anytime we create and send a Transaction (.send()) to 
+// the Ethereum network to ** WRITE ** to the Blockchain, it will take about 30 seconds ...
     await lottery.methods.pickWinner().send({
       from: accounts[0]
     });
-
+    
+// Now the work has been done so, let the user know
     this.setState({ message: 'A winner has been picked!' });
   };
 
