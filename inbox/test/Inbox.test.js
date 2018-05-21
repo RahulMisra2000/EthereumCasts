@@ -20,8 +20,8 @@ let inbox;  // this allows us to interact with the Smart Contract
 // This runs before every Test (it)
 beforeEach(async () => {
   // Get a list of all accounts
-  accounts = await web3.eth.getAccounts();        // ***** This account will be the creator of all Transaction objects created
-                                                  // in this code file...eg.  .send() below creates a transaction object
+  accounts = await web3.eth.getAccounts();        // ***** This returns all the accounts 
+                                                  // known to the ganache-provider
 
   // Use one of those accounts to deploy the contract by SENDING a TRANSACTION object
   inbox = await new web3.eth.Contract(JSON.parse(interface))  // This is the smart contract's Interface
@@ -32,6 +32,8 @@ beforeEach(async () => {
     .send({ from: accounts[0], gas: '1000000' }); // send the TRANSACTION OBJECT; gas here is the GasLimit - the max units of gas the 
                                                   // transaction creator will pay the worker node to do the work of deploying the 
                                                   // the smart contract in Blockchain
+                                                  // the first account in the list of accounts returned will be the creator/owner
+                                                  // of the contract.
   
     // AT THIS POINT, think of inbox as our pointer to the smart contract that has just been DEPLOYED
     // Where it is deployed is in inbox.options.address
