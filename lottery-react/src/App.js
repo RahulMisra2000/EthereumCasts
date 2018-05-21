@@ -15,6 +15,7 @@ class App extends Component {
   async componentDidMount() {
     const manager = await lottery.methods.manager().call();
     const players = await lottery.methods.getPlayers().call();
+    // Both Human accounts (aka external accounts) and Contract Accounts have address and balance associated with them.
     const balance = await web3.eth.getBalance(lottery.options.address);
 
     this.setState({ manager, players, balance });
@@ -23,6 +24,7 @@ class App extends Component {
   onSubmit = async event => {
     event.preventDefault();
 
+    // This will return all the Human accounts that the PROVIDER knows about.
     const accounts = await web3.eth.getAccounts();
 
     this.setState({ message: 'Waiting on transaction success...' });
