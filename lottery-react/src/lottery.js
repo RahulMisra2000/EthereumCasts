@@ -61,4 +61,6 @@ const abi = [
 // This is how you create a local proxy of the contract that is already deployed in the Blockchain....
 // We will call methods on this local copy and with the magic of web3 and the Provider the method will be executed on the 
 // contract that is in the Blockchain
+// NOTE: *** We are NOT creating the Smart Contract here...just a LOCAL PROXY for it ....
+// Remember, the real Smart Contract is created by doing a .deploy(compiled code, etc) and then a .send(transaction object)
 export default new web3.eth.Contract(abi, address);
