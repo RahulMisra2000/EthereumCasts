@@ -4,6 +4,8 @@ contract CampaignFactory {
     address[] public deployedCampaigns; // address of where the campaigns (contracts) are deployed
 
     function createCampaign(uint minimum) public {
+    
+    // *** Creating a contract like how you would create class instance in OOP
         address newCampaign = new Campaign(minimum, msg.sender);
         deployedCampaigns.push(newCampaign);
     }
