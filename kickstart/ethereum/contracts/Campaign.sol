@@ -9,6 +9,9 @@ contract CampaignFactory {
     
     // -------------------------------------------------------------------------------------
     // *** Deploying a contract from inside ANOTHER contract using --- new Contract()
+    // ULTRA IMP: The account that calls this createCampaign function of the CampaignFactory contract 
+    //            will end up paying for the deployment cost of the Campaign Contract
+    //            because it is being deployed in this function
     // -------------------------------------------------------------------------------------
     // In the past we had built a deploy.js script and we used web3.js to compile and then deploy contract.
     // We will still have the deploy.js, but we will just deploy the CampaignFactory contract
