@@ -24,6 +24,10 @@ contract Campaign {
         bool complete;
         uint approvalCount;
         // *** mapping is just another collection data type in Solidity
+        // ADVICE: NOT a good idea to use arrays and then have to LOOP over them IF you expect the array to grow really big
+        //         because that will require a lot of work (GAS) and can soon get expensive for whoever will be making the 
+        //         function calls into the contract that has the LOOP..... So, it is better to use the mapping data type as you 
+        //         will in this document where it is being used ....
         mapping(address => bool) approvals;
     }
 
