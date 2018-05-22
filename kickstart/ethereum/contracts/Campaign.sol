@@ -65,7 +65,13 @@ contract Campaign {
     function approveRequest(uint index) public {
         Request storage request = requests[index];
 
-        require(approvers[msg.sender]);  // the person calling this method better be a contributor
+// the person calling this method better be a contributor
+// the require() is basically like an if-then-else. If what is inside require() is true then the code in the rest of the function 
+// executes. If it is false then execution exits from this function immediately.
+// approves is an instance of the mapping collection data type.  mapping(address => bool)  -- where address is the key ..and bool the value
+// and that is why the author chose it .. because doing  approvers[msg.sender] will return the value of the key, which is boolean
+        require(approvers[msg.sender]);  
+        
         require(!request.approvals[msg.sender]); // the person better be someone who has not already approved this request before
 
         request.approvals[msg.sender] = true; // add the person to the collection of those who have approved this request
