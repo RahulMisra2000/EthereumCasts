@@ -3,13 +3,24 @@ pragma solidity ^0.4.17;
 contract CampaignFactory {
     address[] public deployedCampaigns; // address of where the campaigns (contracts) are deployed
 
+
+    // Call this function to Deploy a Campaign Contract
     function createCampaign(uint minimum) public {
     
-    // *** Creating a contract like how you would create class instance in OOP
-        address newCampaign = new Campaign(minimum, msg.sender);
+    // -------------------------------------------------------------------------------------
+    // *** Deploying a contract from inside ANOTHER contract using --- new Contract()
+    // -------------------------------------------------------------------------------------
+    // In the past we had built a deploy.js script and we used web3.js to compile and then deploy contract.
+    // We will still have the deploy.js, but we will just deploy the CampaignFactory contract
+    // and whenever we want to create a campaign, we can call the createCampaign function and it will deploy it
+    // and this way we will just need to record the address of the CampaignFactory contract because from it we can get to the 
+    // other contracts by calling the getDeployedCampaigns function below
+    
+        address newCampaign = new Campaign(minimum, msg.sender);    // ******  Deploying Contract from inside another Contract
         deployedCampaigns.push(newCampaign);
     }
 
+    // Returns a list of all the addresses where the Campaign Contracts have been deployed
     function getDeployedCampaigns() public view returns (address[]) {
         return deployedCampaigns;
     }
