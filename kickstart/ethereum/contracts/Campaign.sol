@@ -9,9 +9,14 @@ contract CampaignFactory {
     
     // -------------------------------------------------------------------------------------
     // *** Deploying a contract from inside ANOTHER contract using --- new Contract()
-    // ULTRA IMP: The account that calls this createCampaign function of the CampaignFactory contract 
-    //            will end up paying for the deployment cost of the Campaign Contract
-    //            because it is being deployed in this function
+    // ULTRA IMP: The end user on a website (by way of web3.js and a Provider) will call this createCampaign function 
+    //            of this CampaignFactory contract -- maybe when he clicks some button called "Create Campaign" on the UI. 
+    //            So, inside this function msg.sender will be the end user's account
+    //            and if we want the end user to pay for the deployment of the Campaign Contract then  we should 
+    //            send that msg.sender to the constructor of the Campaign Contract. 
+    //            If we don't then, the msg.sender inside the Campaign Contract will point to the CampaignFactory Contract's address
+    //            and the CampaignFactory will be responsible for the deployment costs of all the Campaign Contracts 
+    //            when in fact the end user should be paying because he is creating the Campaign for himself. 
     // -------------------------------------------------------------------------------------
     // In the past we had built a deploy.js script and we used web3.js to compile and then deploy contract.
     // We will still have the deploy.js, but we will just deploy the CampaignFactory contract
