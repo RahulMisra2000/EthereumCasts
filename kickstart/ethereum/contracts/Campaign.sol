@@ -65,8 +65,8 @@ contract Campaign {
         _;
     }
 
-    constructor (uint minimum, address creator) public {
-        manager = creator;
+    constructor (uint minimum, address endUsersAddress) public {
+        manager = endUsersAddress;  // The end user creating the Campaign is the manager of the Campaign
         minimumContribution = minimum;
     }
 
