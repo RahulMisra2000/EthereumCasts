@@ -16,7 +16,7 @@ contract CampaignFactory {
 }
 
 contract Campaign {
-// *** struct is just another collection data type in Solidity
+// *** struct like class in OOP allows you to CREATE a CUSTOM DATA TYPE
     struct Request {
         string description;
         uint value;
@@ -27,7 +27,9 @@ contract Campaign {
         mapping(address => bool) approvals;
     }
 
-    Request[] public requests;
+// *** Here we are creating a variable that will point to an array which will have instances of Request struct as elements in it
+    Request[] public requests;  
+
     address public manager;
     uint public minimumContribution;
     
@@ -53,15 +55,15 @@ contract Campaign {
     }
 
     function createRequest(string description, uint value, address recipient) public xyz {
-        Request memory newRequest = Request({       // creating an instance of the Struct
+        Request memory x = Request({       // ***** creating an instance of the Struct Request. The variable x points to it
            description: description,
-           value: value,
-           recipient: recipient,
+           value: value,         // the money the vendor will get if the request is finalized
+           recipient: recipient, // The vendor who will get the money after the request is finalized
            complete: false,     // if this request is done or not. Done meaning value sent to vendor (recipient)
            approvalCount: 0     // how many contributors have approved this request
         });
 
-        requests.push(newRequest);
+        requests.push(x);
     }
 
     function approveRequest(uint index) public {
