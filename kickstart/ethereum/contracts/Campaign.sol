@@ -90,7 +90,7 @@ contract Campaign {
 
 // ***** MONEY TRANSFER to the Vendor *******
 // Basically, there is a transfer method on any address
-// address.transfer(money); is the syntax
+// address.transfer(money); is the syntax  ... the address GETS the money
         request.recipient.transfer(request.value);
         request.complete = true;
     }
