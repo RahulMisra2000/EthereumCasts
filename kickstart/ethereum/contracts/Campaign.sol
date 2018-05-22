@@ -1,7 +1,7 @@
 pragma solidity ^0.4.17;
 
 contract CampaignFactory {
-    address[] public deployedCampaigns;
+    address[] public deployedCampaigns; // address of where the campaigns are deployed
 
     function createCampaign(uint minimum) public {
         address newCampaign = new Campaign(minimum, msg.sender);
@@ -38,7 +38,7 @@ contract Campaign {
         _;
     }
 
-    function Campaign(uint minimum, address creator) public {
+    constructor (uint minimum, address creator) public {
         manager = creator;
         minimumContribution = minimum;
     }
