@@ -97,6 +97,7 @@ contract Campaign {
 // ***** MONEY TRANSFER to the Vendor *******
 // Basically, there is a transfer method on any address
 // address.transfer(money); is the syntax  ... the address GETS the money
+// The money comes out of this.balance
         request.recipient.transfer(request.value);
         request.complete = true;
     }
@@ -106,7 +107,9 @@ contract Campaign {
       ) {
         return (
           minimumContribution,
-          this.balance,         // amount of money that has been contributed so far
+// all payable methods automatically add msg.value to this.balance
+// so when a .transfer() is called the money comes out of this.balance
+          this.balance,         
           requests.length,
           approversCount,
           manager
