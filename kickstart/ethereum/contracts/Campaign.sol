@@ -80,7 +80,7 @@ contract Campaign {
         request.approvalCount++;
     }
 
-    function finalizeRequest(uint index) public restricted {
+    function finalizeRequest(uint index) public xyz {
         Request storage request = requests[index];
 
 // Majority of campaign contributors must approve the request
