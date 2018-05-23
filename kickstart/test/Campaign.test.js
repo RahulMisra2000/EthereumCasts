@@ -26,11 +26,16 @@ beforeEach(async () => {
   await factory.methods.createCampaign('100')
     .send({ from: accounts[0], gas: '1000000' });
 
-  // Create a local proxy pointing to the just created Campaign Contract
+  
+  // Get the address of the Campaign contract that was just deployed
+  // The syntax below takes the first element from the returned array
+  // and assigns it to the variable campaignAddress
   [campaignAddress] = await factory.methods.getDeployedCampaigns().call();
+ 
+  // Create a local contract proxy which will point to the just created campaign contract
   campaign = await new web3.eth.Contract(
     JSON.parse(compiledCampaign.interface),
-    campaignAddress
+    campaignAddress     // campaign contract address
   );
 });
 
