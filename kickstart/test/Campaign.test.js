@@ -5,12 +5,14 @@ const Web3 = require('web3');
 // This provider gives us a handful of pre-funded (100 ethers each I think) accounts
 const web3 = new Web3(ganache.provider());
 
+// This contains the compiled CampaignFactory contract
 const compiledFactory = require('../ethereum/build/CampaignFactory.json');
+// This contains the compiled Campaign contract
 const compiledCampaign = require('../ethereum/build/Campaign.json');
 
-let accounts;
-let factory;
-let campaignAddress;
+let accounts;           // This will contain the list of pre-funded accounts provided by ganache provider
+let factory;            // This will contain the CampaignFactory contract's address where it is deployed
+let campaignAddress;    // This will contain the Campaign contract's address where it is deployed
 let campaign;
 
 beforeEach(async () => {
@@ -21,23 +23,26 @@ beforeEach(async () => {
     .deploy({ data: compiledFactory.bytecode })
     .send({ from: accounts[0], gas: '1000000' });
 
-  // Calling createCampaign function in the contract, 
-  // this function inside the contract deploys the Campaign contract
+  // Calling createCampaign function of the ContractFactory contract, 
+  // that function inside the contract deploys the Campaign contract
   await factory.methods.createCampaign('100')
     .send({ from: accounts[0], gas: '1000000' });
-
   
   // Get the address of the Campaign contract that was just deployed
   // The syntax below takes the first element from the returned array
   // and assigns it to the variable campaignAddress
   [campaignAddress] = await factory.methods.getDeployedCampaigns().call();
  
-  // Create a local contract proxy which will point to the just created campaign contract
+  // Now that we have the address of the Campaign contract that was deployed, we can
+  // create a local contract proxy which will point to the just created campaign contract
   campaign = await new web3.eth.Contract(
     JSON.parse(compiledCampaign.interface),
     campaignAddress     // campaign contract address
   );
 });
+
+// ***** Now that we have the local proxy for the Campaign contract, we can 
+// call the methods on the contract and test them ...
 
 describe('Campaigns', () => {
   it('deploys a factory and a campaign', () => {
