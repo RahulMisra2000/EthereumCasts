@@ -13,6 +13,10 @@ const deploy = async () => {
 
   console.log('Attempting to deploy from account', accounts[0]);
 
+  // Only DEPLOYING the CampaignFactory contract.
+  // Will not be deploying the Campaign Factory from here.
+  // It will be deployed when the createCampaign() function in the CampaignFactory is called
+  // because that function does the deployment in solidity code.
   const result = await new web3.eth.Contract(
     JSON.parse(compiledFactory.interface)
   )
