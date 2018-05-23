@@ -21,11 +21,10 @@ beforeEach(async () => {
     .deploy({ data: compiledFactory.bytecode })
     .send({ from: accounts[0], gas: '1000000' });
 
-  // Calling createCampaign function in the contract, which deploys the Campaign contract
-  await factory.methods.createCampaign('100').send({
-    from: accounts[0],
-    gas: '1000000'
-  });
+  // Calling createCampaign function in the contract, 
+  // this function inside the contract deploys the Campaign contract
+  await factory.methods.createCampaign('100')
+    .send({ from: accounts[0], gas: '1000000' });
 
   // Create a local proxy pointing to the just created Campaign Contract
   [campaignAddress] = await factory.methods.getDeployedCampaigns().call();
@@ -47,57 +46,44 @@ describe('Campaigns', () => {
   });
 
   it('allows people to contribute money and marks them as approvers', async () => {
-    await campaign.methods.contribute().send({
-      value: '200',
-      from: accounts[1]
-    });
+    await campaign.methods.contribute()
+      .send({ value: '200', from: accounts[1] });
+    
     const isContributor = await campaign.methods.approvers(accounts[1]).call();
     assert(isContributor);
   });
 
   it('requires a minimum contribution', async () => {
     try {
-      await campaign.methods.contribute().send({
-        value: '5',
-        from: accounts[1]
-      });
+      await campaign.methods.contribute()
+        .send({ value: '5', from: accounts[1] });
       assert(false);
     } catch (err) {
       assert(err);
     }
   });
 
-  it('allows a manager to make a payment request', async () => {
-    await campaign.methods
-      .createRequest('Buy batteries', '100', accounts[1])
-      .send({
-        from: accounts[0],
-        gas: '1000000'
-      });
+  it('allows a manager to create a request for payment to be made to a vendor', async () => {
+    await campaign.methods.createRequest('Buy batteries', '100', accounts[1])
+      .send({ from: accounts[0], gas: '1000000' });
+    
     const request = await campaign.methods.requests(0).call();
 
     assert.equal('Buy batteries', request.description);
   });
 
   it('processes requests', async () => {
-    await campaign.methods.contribute().send({
-      from: accounts[0],
-      value: web3.utils.toWei('10', 'ether')
-    });
+    await campaign.methods.contribute()
+      .send({ from: accounts[0], value: web3.utils.toWei('10', 'ether') });
 
-    await campaign.methods
-      .createRequest('A', web3.utils.toWei('5', 'ether'), accounts[1])
+    await campaign.methods.createRequest('A', web3.utils.toWei('5', 'ether'), accounts[1])
       .send({ from: accounts[0], gas: '1000000' });
 
-    await campaign.methods.approveRequest(0).send({
-      from: accounts[0],
-      gas: '1000000'
-    });
+    await campaign.methods.approveRequest(0)
+      .send({ from: accounts[0], gas: '1000000' });
 
-    await campaign.methods.finalizeRequest(0).send({
-      from: accounts[0],
-      gas: '1000000'
-    });
+    await campaign.methods.finalizeRequest(0)
+      .send({ from: accounts[0], gas: '1000000' });
 
     let balance = await web3.eth.getBalance(accounts[1]);
     balance = web3.utils.fromWei(balance, 'ether');
