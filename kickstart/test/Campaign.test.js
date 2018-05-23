@@ -59,6 +59,10 @@ describe('Campaigns', () => {
     await campaign.methods.contribute()
       .send({ value: '200', from: accounts[1] });
     
+    // In the Contract there is a PUBLIC instance variable 
+    // mapping(address => bool) public approvers;
+    // So, Solidity creates a getter function of the same name as variable ... approvers
+    // and because it is a mapping ... so if we send it the key, we will get the value
     const isContributor = await campaign.methods.approvers(accounts[1]).call();
     assert(isContributor);
   });
@@ -67,9 +71,13 @@ describe('Campaigns', () => {
     try {
       await campaign.methods.contribute()
         .send({ value: '5', from: accounts[1] });
-      assert(false);
+      assert(false);  // If execution comes here, the test fails, because it should not come
+                      // here because 5 is less than the mininum contribution
+                      // so if it comes here that means that solidity code is NOT doing the 
+                      // require()
     } catch (err) {
-      assert(err);
+                      // Execution comes here if the solidity codes exits at the require()
+      assert(err);    // and the test fails
     }
   });
 
@@ -77,24 +85,37 @@ describe('Campaigns', () => {
     await campaign.methods.createRequest('Buy batteries', '100', accounts[1])
       .send({ from: accounts[0], gas: '1000000' });
     
+    // The requests is a PUBLIC instance array variable in the contract   
+    // Request[] PUBLIC requests;
+    // so, a getter is created for it by Solidity of the same name as variable ... requests
+    // so, if we send it an index, the value at the index will be returned from the array.
     const request = await campaign.methods.requests(0).call();
 
     assert.equal('Buy batteries', request.description);
   });
 
+  // ****** This is an End-to-End TEST
+  / -----------------------------------
   it('processes requests', async () => {
+    
+    // This 10 ethers will go into the balance of the contract
     await campaign.methods.contribute()
       .send({ from: accounts[0], value: web3.utils.toWei('10', 'ether') });
 
+    // 5 ethers needs to be sent to a vendor ..accounts[1] .. so a request is being created for it
     await campaign.methods.createRequest('A', web3.utils.toWei('5', 'ether'), accounts[1])
       .send({ from: accounts[0], gas: '1000000' });
 
+    // Request approval
     await campaign.methods.approveRequest(0)
       .send({ from: accounts[0], gas: '1000000' });
 
+    // Request is finalized and so the 5 ethers are being transferred to the vendor
     await campaign.methods.finalizeRequest(0)
       .send({ from: accounts[0], gas: '1000000' });
 
+    // Get the vendor's balance to see if see if his balance is at least 104 ... it was
+    // 100 to start with because ganache pre-funds all accounts with 100 ethers ....
     let balance = await web3.eth.getBalance(accounts[1]);
     balance = web3.utils.fromWei(balance, 'ether');
     balance = parseFloat(balance);
