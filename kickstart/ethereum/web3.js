@@ -9,7 +9,8 @@ if (typeof window !== 'undefined' && typeof window.web3 !== 'undefined') {
   // VERY IMP:   Web3         is the new version of Web3.js library that we installed using npm during the project setup phase
   //             window.web3  is the instance of Web3.js library that MetaMask injects into the active Chrome page. This version may be OLD
   //                          and that is why we use a newer version of Web3.js by getting it directly from npm
-  //                          but we use the provider that MetaMask uses
+  //                          but we use the provider that MetaMask uses.
+  //                          This provider has access to all the accounts in the MetaMask plugin.
   web3 = new Web3(window.web3.currentProvider);
 } else {
   // We are on the server (because of server-side rendering) *OR* we are on the client (in browser) and the user is not running MetaMask
