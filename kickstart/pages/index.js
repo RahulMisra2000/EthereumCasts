@@ -19,8 +19,15 @@ class CampaignIndex extends Component {
 
   
   renderCampaigns() {
+    // this.props.campaigns is an array of address, so we use the map function to itirerate through the array and return something
+    // that will become the new elements of a new array (items below) that is created
+    
     const items = this.props.campaigns.map(address => {
       return {
+        // The selection of this object structure is NOT random.
+        // We are using components (e.g Card.Group below) from "Semantic UI Reach" 3rd party library and if you check the documentation
+        // of the Card.Group component, you will see that it expecs an array of object where each object has the structure we are 
+        // creating here ....
         header: address,
         description: (
           <Link route={`/campaigns/${address}`}>
