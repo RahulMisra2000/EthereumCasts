@@ -14,6 +14,9 @@ class ContributeForm extends Component {
   onSubmit = async event => {     // has to be marked with async because we are using await inside this function
     event.preventDefault();       // we don't want any postback to happen since we are handling everything with submission
 
+    // the address here is being sent to this component by a parent component vid data binding ....
+    // anything sent this way gets automatically added to the props property of the component...and that is why address is available
+    // as this.props.address
     const campaign = Campaign(this.props.address);
 
     this.setState({ loading: true, errorMessage: '' });   // setting loading to true so that animation starts to give users
