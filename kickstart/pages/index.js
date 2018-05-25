@@ -9,7 +9,9 @@ class CampaignIndex extends Component {
   // next.js (like Angular UNIVERSAL to do SSR, except it has a lot of other features)
   // It calls this lifecycle method *** during SSR *** and so in this function we can get the data from the contract
   // and return it. next.js takes the returned "stuff" and INJECTS it into the props property of this component (this.props. ) so that 
-  // it can be accessed by any function in this component.
+  // it can be accessed by any function in this component including the reder() which gets called when the component needs to be 
+  // rendered.
+  
   static async getInitialProps() { 
     const campaigns = await factory.methods.getDeployedCampaigns().call();  // returns an array of addresses ...
 
