@@ -126,9 +126,12 @@ contract Campaign {
       ) {
         return (
           minimumContribution,
-// all payable methods automatically add msg.value to this.balance
-// so when a .transfer() is called the money comes out of this.balance
-          this.balance,         
+          this.balance,         // DETOUR: all payable methods when invoked are invoked with a value: (some money amount). This of this 
+                                // as the actual parameter and the formal parameter inside the payable method is msg.value
+                                // Automatically msg.value gets added to this.balance
+                                //
+                                // WHEN from inside the contract we code a x.transfer(y), we are transferring y amount of money 
+                                // from this.balance and transfering it to x's account
           requests.length,
           approversCount,
           manager
