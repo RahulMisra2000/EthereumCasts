@@ -12,21 +12,31 @@ class RequestIndex extends Component {
     const requestCount = await campaign.methods.getRequestsCount().call();
     const approversCount = await campaign.methods.approversCount().call();
 
+    // Fancy javascript
+    // parseInt(requestCount)   : converts a string to an integer
+    // Array()                  : creates an array
+    // .fill()                  : fills each element of the array with undefined
+    // .map()                   : returns elements as part of a new array
     const requests = await Promise.all(
       Array(parseInt(requestCount))
         .fill()
         .map((element, index) => {
+          // Note, we are not doing await here because we want to store the promise in the array
           return campaign.methods.requests(index).call();
         })
     );
 
+    // We will get to this point when ALL the promises inside the array have been resolved. The resolved value of each promise
+    // will be saved in the const requests array above...
+    
     return { address, requests, requestCount, approversCount };
   }
 
   renderRows() {
     return this.props.requests.map((request, index) => {
-      return (
+      return (     
         <RequestRow
+        // We are sending all these to the RequestRow component ... It wil receive them as key/value pairs under this.props.
           key={index}
           id={index}
           request={request}
