@@ -88,11 +88,11 @@ class CampaignShow extends Component {
         <h3>Campaign Show</h3>
         <Grid>
           <Grid.Row>
+      // Notice the {10} and {6} .. that is semantic-ui-react ... like Bootstrap... except here it should add to 16 .. in bootstrap 
+      // it was 12 I think
             <Grid.Column width={10}>{this.renderCards()}</Grid.Column>
 
-            <Grid.Column width={6}>
-              <ContributeForm address={this.props.address} />
-            </Grid.Column>
+            <Grid.Column width={6}> <ContributeForm address={this.props.address} /> </Grid.Column>
           </Grid.Row>
 
           <Grid.Row>
