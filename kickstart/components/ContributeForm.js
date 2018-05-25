@@ -30,10 +30,12 @@ class ContributeForm extends Component {
             value: web3.utils.toWei(this.state.value, 'ether')
       });
 
-      // The difference between replaceRoute() and pushRoute() is how the url is handled in the browser's history
-      // They are kinda analogous to window.history.pushState()  and window.history.replaceState(). They don't re-render the page
-      // but replaceRoute() and pushRoute() these do .... in addition to what the HTML5 window.history.pushState()  and window.history.replaceState()
-      // do
+      // The difference between replaceRoute(s,x,url1) and pushRoute(s,x,url1) is how the the browser's history is handled
+      // They are kinda analogous to window.history.pushState()  and window.history.replaceState() -- these don't load url1, they just
+      // change the browser's address bar to url1 and cause popstate Event to fire, which we can write event handler for and access 
+      // the object s
+      // but replaceRoute() and pushRoute() these also add/replace entries in the browser's history just like HTML5 window.history.pushState()
+      // and window.history.replaceState() do. In addition, they also reload url1
       Router.replaceRoute(`/campaigns/${this.props.address}`);    // Programmatic Redirect
     } catch (err) {
       this.setState({ errorMessage: err.message });
