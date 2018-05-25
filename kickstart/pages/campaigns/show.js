@@ -7,11 +7,16 @@ import ContributeForm from '../../components/ContributeForm';
 import { Link } from '../../routes';
 
 class CampaignShow extends Component {
+  
+  // next.js gives us a lifecycle method called getInitialProps(props)
+  // This props is not the same props that hangs off this component
+  // This props contains route parameters, etc.
   static async getInitialProps(props) {
-    const campaign = Campaign(props.query.address);
+    const campaign = Campaign(props.query.address); // address of the Campaign, passed as route parameter
 
     const summary = await campaign.methods.getSummary().call();
 
+    // The object returned by this method gets added to the props property of this component
     return {
       address: props.query.address,
       minimumContribution: summary[0],
@@ -23,6 +28,7 @@ class CampaignShow extends Component {
   }
 
   renderCards() {
+    // This is just ES6 shorthand syntax for defining const or let .....
     const {
       balance,
       manager,
