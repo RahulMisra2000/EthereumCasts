@@ -12,13 +12,21 @@ class CampaignShow extends Component {
   // This props is not the same props that hangs off this component
   // This props contains route parameters, etc.
   static async getInitialProps(props) {
-    const campaign = Campaign(props.query.address); // address of the Campaign, passed as route parameter
+    const campaign = Campaign(props.query.address); // "props.query.address" -- address of the Campaign, passed as route parameter
+    // campaign : this is the proxy object that points to the contract at address "props.query.address"
 
     const summary = await campaign.methods.getSummary().call();
 
     // The object returned by this method gets added to the props property of this component
     return {
       address: props.query.address,
+      
+      // Whenever a smart contract's getter function returns more than one value (getSummary() in our example does that), 
+      // you will get an object back (summary in our example) whose keys will be ‘0’, ‘1’, ‘2’, ..  and whose values will 
+      // be whatever you are returning… that is why we are subscripting to get to the value ... we are NOT getting an array back 
+      // we are just using the subscript syntax way of accessing an object's properties....
+      // ob = { x : 100 };   
+      // ob['x'] is same as ob.x        // subscript way and dot way of accessing properties of an object
       minimumContribution: summary[0],
       balance: summary[1],
       requestsCount: summary[2],
@@ -28,7 +36,7 @@ class CampaignShow extends Component {
   }
 
   renderCards() {
-    // This is just ES6 shorthand syntax for defining const or let .....
+    // This is just ES6 shorthand syntax for *** DESTRUCTURING *** an object
     const {
       balance,
       manager,
